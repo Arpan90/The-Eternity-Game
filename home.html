@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>The Eternity Game</title>
+        <link href="main.css" rel="stylesheet" type="text/css">
+    </head>
+
+    <body>
+        <script>
+            let glyphs = ["One", "Self", "Two-in-one", "Being", "Consciousness", "Bliss", "Wisdom", "Power", "Love", "Perfection", "Cosmos", "Sun", "Moon", "Star", "Comet", "Mercury", "Venus", "Earth", "Mars", "Asteroids", "Jupiter", "Saturn", "Urania", "Neptune", "Pluto", "Aquarius", "Pisces", "Aries", 
+            "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Fire", "Flame", "Vitality", "Heart", "Word", "Will", "Truth",
+            "Man-bird", "Gate", "Humour", "Bee", "Dwarf", "Giant", "Disciple", "Guru", "Sage", "Lover", "Gnosis", "Man-lotus", "Child", "Joy", "Silence", "Rebirth", "Evolution", "Eternity", "Infinity", "Emptiness"];
+            let temp = glyphs.slice();
+            let cardsClicked = [];
+            function reveal(event){
+                        let id = event.target.id;
+                        document.getElementById(id).onclick = "";
+                        console.log("original glyphs is: ", glyphs)
+                        let selectedGlyphId = Math.floor(Math.random() * glyphs.length)
+                        document.getElementById(id).src = "cards/" +  glyphs[selectedGlyphId] + ".png";
+                        let degrees = [0, 90, 180, 270]
+                        let selectedDegree = Math.floor(Math.random() * degrees.length);
+                        document.getElementById(id).style.transform = "rotate( +" + degrees[selectedDegree] + "deg)";
+                        glyphs.splice(selectedGlyphId, 1);
+                        console.log("modified glyphs: ", glyphs)
+                        cardsClicked.push(id)
+                    }
+            for(let i=0; i<8; i++){
+                let flexBox = document.createElement("div")
+                let id = i.toString();
+                flexBox.id = id;
+                flexBox.className = "flexBoxRow"
+                document.body.appendChild(flexBox);
+                for(let j=0; j<8; j++){
+                    let card = document.createElement("img")
+                    card.className = "card"
+                    let cardId = id + j.toString();
+                    card.id = cardId;
+                    card.src = "cards/back.jpg";
+                    card.alt = "";
+                    card.onclick = reveal;
+                    // function(event){
+                    //     let id = event.target.id;
+                    //     console.log("original glyphs is: ", glyphs)
+                    //     selectedGlyphId = Math.floor(Math.random() * glyphs.length)
+                    //     document.getElementById(id).src = "cards/" +  glyphs[selectedGlyphId] + ".png";
+                    //     glyphs.splice(selectedGlyphId, 1);
+                    //     console.log("modified glyphs: ", glyphs)
+                    //     cardsClicked.push(id)
+                    // }
+                    document.getElementById(id).appendChild(card)
+                }
+            }
+            let btn = document.createElement("BUTTON")
+            btn.innerHTML = "Shuffle";
+            btn.onclick = function(){
+                console.log("glyphs = ",glyphs)
+                console.log("temp = ",temp)
+                glyphs = temp.slice();
+                for(let i=0; i<cardsClicked.length; i++){
+                    document.getElementById(cardsClicked[i]).src = "cards/back.jpg";
+                    document.getElementById(cardsClicked[i]).onclick = reveal;
+                    document.getElementById(cardsClicked[i]).style.transform = "rotate(0deg)";
+                }
+            }
+            document.body.appendChild(btn);
+            let link = document.createElement("a")
+            link.innerHTML = "Click here for explanation"
+            link.href = "http://wiki.auroville.org.in/wiki/The_Eternity_Game"
+            link.target = "_blank"
+            document.body.appendChild(link);
+        </script>
+    </body>
+</html>
