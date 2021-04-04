@@ -12,14 +12,26 @@
             "Man-bird", "Gate", "Humour", "Bee", "Dwarf", "Giant", "Disciple", "Guru", "Sage", "Lover", "Gnosis", "Man-lotus", "Child", "Joy", "Silence", "Rebirth", "Evolution", "Eternity", "Infinity", "Emptiness"];
             let temp = glyphs.slice();
             let cardsClicked = [];
+
+            function randomize(arr){
+                let d = new Date();
+                let ms = d.getMilliseconds() % 100; //  64 is the length of cached stack produced by first call to Math.random(); current millisecond count is used to produce a random number of values to be popped of that cache.
+               
+                for(let i = 1; i <= ms; i++ ){ // pop out random number(upto 64) of random numbers cached after the first call to Math.random(); 
+                    Math.random();
+                }
+                return Math.floor(Math.random() * arr.length);
+            }
+
+
             function reveal(event){
                         let id = event.target.id;
                         document.getElementById(id).onclick = "";
                         console.log("original glyphs is: ", glyphs)
-                        let selectedGlyphId = Math.floor(Math.random() * glyphs.length)
+                        let selectedGlyphId = randomize(glyphs);
                         document.getElementById(id).src = "cards/" +  glyphs[selectedGlyphId] + ".png";
                         let degrees = [0, 90, 180, 270]
-                        let selectedDegree = Math.floor(Math.random() * degrees.length);
+                        let selectedDegree = randomize(degrees);
                         document.getElementById(id).style.transform = "rotate( +" + degrees[selectedDegree] + "deg)";
                         glyphs.splice(selectedGlyphId, 1);
                         console.log("modified glyphs: ", glyphs)
@@ -39,15 +51,6 @@
                     card.src = "cards/back.jpg";
                     card.alt = "";
                     card.onclick = reveal;
-                    // function(event){
-                    //     let id = event.target.id;
-                    //     console.log("original glyphs is: ", glyphs)
-                    //     selectedGlyphId = Math.floor(Math.random() * glyphs.length)
-                    //     document.getElementById(id).src = "cards/" +  glyphs[selectedGlyphId] + ".png";
-                    //     glyphs.splice(selectedGlyphId, 1);
-                    //     console.log("modified glyphs: ", glyphs)
-                    //     cardsClicked.push(id)
-                    // }
                     document.getElementById(id).appendChild(card)
                 }
             }
